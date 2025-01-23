@@ -87,15 +87,6 @@ if(condition=="kth treatment effective")
       tau[j]            <- delta1
 }
 
-#if(condition=="LFC")
-#{
- #tau                 <-matrix(0, nrow=K, ncol=J*K)
-  #for(k in 1:K)
-  #{
-   # for(j in (1+k*J-J):(k*J))
-    #  tau[k,j]   <- delta1
-  #}
-#}
 
 
 ##################    computing the stopping probabilities      ##############################################################################
@@ -215,42 +206,6 @@ for(i in 1: nrow(omega))
 }
 
 
-#Stopping probabilities:
-#if(condition=="LFC")
-#{
-  #for(i in 1: nrow(omega))
-  #{
-   # stopping_probability[[i]]         <-list()
-    #for(l in 1:nrow(psi))
-    #{
-     # stopping_probability[[i]][[l]]   <- numeric()
-      #for(i_LFC in 1: nrow(tau))
-      #{
-       # stopping_probability[[i]][[l]][i_LFC]   <- mvtnorm::pmvnorm(lower= lower_bounds[[i]][[l]], 
-        #                                                   upper= upper_bounds[[i]][[l]],
-         #                                                  mean = tau[i_LFC,tau_indices[[i]]==1]*sqrt_I[tau_indices[[i]]==1],
-          #                                                 sigma= covariance_matrices[[i]])[1] 
-      #}
-    #}
-  #}
-#}
-
-#else
-#{
-  for(i in 1: nrow(omega))
-  {
-    stopping_probability[[i]]         <-numeric(nrow(psi))
-    for(l in 1:nrow(psi))
-      stopping_probability[[i]][l]   <- mvtnorm::pmvnorm(lower= lower_bounds[[i]][[l]], 
-                                                         upper= upper_bounds[[i]][[l]],
-                                                         mean = tau[tau_indices[[i]]==1]*sqrt_I[tau_indices[[i]]==1],
-                                                         sigma= covariance_matrices[[i]])[1]
-  }
-  
-#}
-
-
-
 ###################    computing the number of pipelines     ######################################################################
 
 
@@ -361,7 +316,6 @@ result$n_Js                   <- sapply(n_Js, round)
 result$total_n_Js             <- total_n_Js
 result$final_realised_stage   <- final_realised_stage
 result$stopping_prob_total    <- sapply(stopping_probability,sum)
-#result$stopping_prob_LFC      <- sapply(stopping_probability,sum)
 result$Pipelines_uniform      <- sapply(n_pipeline_uniform, round)
 result$overruns_uniform       <- n_overrun_uniform
 result$total_recruitment_uni  <- total_n_Js+result$overruns_uniform
