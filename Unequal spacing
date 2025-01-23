@@ -96,16 +96,7 @@ simulating                    <- function(K, J, delta1, spacing, power_control, 
       tau[j]            <- delta1
   }
   
-  #if(condition=="LFC")o
-  #{
-  #tau                 <-matrix(0, nrow=K, ncol=J*K)
-  #for(k in 1:K)
-  #{
-  # for(j in (1+k*J-J):(k*J))
-  #  tau[k,j]   <- delta1
-  #}
-  #}
-  
+
   
   ##################    computing the stopping probabilities      ##############################################################################
   
@@ -387,7 +378,6 @@ simulating                    <- function(K, J, delta1, spacing, power_control, 
     result$total_n_Js             <- total_n_Js
     result$final_realised_stage   <- final_realised_stage
     result$stopping_prob_total    <- sapply(stopping_probability,sum)
-    #result$stopping_prob_LFC      <- sapply(stopping_probability,sum)
     result$Pipelines_uniform      <- sapply(n_pipeline_uniform, round)
     result$overruns_uniform       <- as.numeric(n_overrun_uniform)
     result$total_recruitment_uni  <- total_n_Js+result$overruns_uniform
@@ -445,12 +435,10 @@ simulating                    <- function(K, J, delta1, spacing, power_control, 
     ESS_delay_uni                 <- ESS_delay_lin               <-ESS  <-numeric(length(m0))
     for(i in 1: length(m0))
     {
-      #index                         <- i+length(m0)*c(1:nrow(omega)-1)
       index                         <- (1+(i-1)*nrow(omega)):(i*nrow(omega))
       ESS[i]                        <- sum(result$total_n_Js[index]*result$stopping_prob_total[index])
       ESS_delay_uni[i]              <- sum(result$total_recruitment_uni[index]*result$stopping_prob_total[index])
-      ESS_delay_lin[i]              <- sum(result$total_recruitment_lin[index]*result$stopping_prob_total[index])
-      
+      ESS_delay_lin[i]              <- sum(result$total_recruitment_lin[index]*result$stopping_prob_total[index])     
     }
     
     return(list(nrow(omega),nrow(psi),nmax,ESS,ESS_delay_uni,ESS_delay_lin))
